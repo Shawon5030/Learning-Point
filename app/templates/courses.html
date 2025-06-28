@@ -1,20 +1,21 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Courses</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap');
-    
+
     body {
       font-family: 'Montserrat', sans-serif;
       background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
     }
-    
+
     .course-card {
       background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
       box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.2);
@@ -23,7 +24,7 @@
       overflow: hidden;
       position: relative;
     }
-    
+
     .course-card::before {
       content: '';
       position: absolute;
@@ -35,48 +36,48 @@
       background-size: 200% 200%;
       animation: gradientShift 3s ease infinite;
     }
-    
+
     .course-card:hover {
       transform: translateY(-8px) scale(1.02);
       box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
     }
-    
+
     .course-img {
       height: 200px;
       object-fit: cover;
       transition: transform 0.5s ease;
     }
-    
+
     .course-card:hover .course-img {
       transform: scale(1.05);
     }
-    
+
     .filter-btn {
       transition: all 0.3s ease;
       font-weight: 600;
       letter-spacing: 0.5px;
     }
-    
+
     .filter-btn:hover {
       transform: translateY(-2px);
     }
-    
+
     .enroll-btn {
       background: linear-gradient(90deg, #3b82f6, #6366f1);
       transition: all 0.3s ease;
     }
-    
+
     .enroll-btn:hover {
       background: linear-gradient(90deg, #2563eb, #4f46e5);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     }
-    
+
     .disabled-btn {
       position: relative;
       overflow: hidden;
     }
-    
+
     .disabled-btn::after {
       content: '';
       position: absolute;
@@ -88,17 +89,25 @@
       transform: rotate(30deg);
       transition: all 0.3s;
     }
-    
+
     .disabled-btn:hover::after {
       left: 100%;
     }
-    
+
     @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
     }
-    
+
     .page-title {
       background: linear-gradient(90deg, #3b82f6, #8b5cf6);
       -webkit-background-clip: text;
@@ -107,7 +116,7 @@
       display: inline-block;
       position: relative;
     }
-    
+
     .page-title::after {
       content: '';
       position: absolute;
@@ -118,12 +127,12 @@
       background: linear-gradient(90deg, #3b82f6, #8b5cf6);
       border-radius: 2px;
     }
-    
+
     .details-btn {
       background: linear-gradient(90deg, #10b981, #34d399);
       transition: all 0.3s ease;
     }
-    
+
     .details-btn:hover {
       background: linear-gradient(90deg, #059669, #10b981);
       transform: translateY(-2px);
@@ -132,81 +141,94 @@
   </style>
 </head>
 
-{% include 'header.html' %} 
+{% include 'header.html' %}
 
 <body class="min-h-screen">
   <div class="container mx-auto px-4 py-12">
-    <h1 class="text-5xl font-black text-center mb-12 page-title animate__animated animate__fadeInDown">Our Courses</h1>
+    <h1 class="lg:text-4xl text-blue-600 font-bold text-center lg:mb-8 mb-5 text-2xl">কোর্সসমূহ</h1>
 
     <div class="flex flex-wrap justify-center gap-3 mb-12 animate__animated animate__fadeIn">
       <a href="/courses/">
-        <button class="px-5 py-2.5 rounded-full filter-btn {% if data == None %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
+        <button
+          class="px-5 py-2.5 border-[0.1px] border-[rgba(0,0,0,0.1)] rounded-full filter-btn {% if data == None %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
           All Courses
         </button>
       </a>
       {% if Even_odd.even_odd == "Odd" %}
       <a href="/courses/first-semester">
-        <button class="px-5 py-2.5 rounded-full filter-btn {% if data == 'first-semester' %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
+        <button
+          class="px-5 py-2.5 border-[0.1px] border-[rgba(0,0,0,0.1)] rounded-full filter-btn {% if data == 'first-semester' %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
           1st Semester
         </button>
       </a>
       <a href="/courses/third-semester">
-        <button class="px-5 py-2.5 rounded-full filter-btn {% if data == 'third-semester' %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
+        <button
+          class="px-5 py-2.5 border-[0.1px] border-[rgba(0,0,0,0.1)] rounded-full filter-btn {% if data == 'third-semester' %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
           3rd Semester
         </button>
       </a>
       <a href="/courses/fifth-semester">
-        <button class="px-5 py-2.5 rounded-full filter-btn {% if data == 'fifth-semester' %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
+        <button
+          class="px-5 py-2.5 border-[0.1px] border-[rgba(0,0,0,0.1)] rounded-full filter-btn {% if data == 'fifth-semester' %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
           5th Semester
         </button>
       </a>
       <a href="/courses/seventh-semester">
-        <button class="px-5 py-2.5 rounded-full filter-btn {% if data == 'seventh-semester' %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
+        <button
+          class="px-5 py-2.5 border-[0.1px] border-[rgba(0,0,0,0.1)] rounded-full filter-btn {% if data == 'seventh-semester' %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
           7th Semester
         </button>
       </a>
       {% else %}
       <a href="/courses/second-semester">
-        <button class="px-5 py-2.5 rounded-full filter-btn {% if data == 'second-semester' %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
+        <button
+          class="px-5 py-2.5 border-[0.1px] border-[rgba(0,0,0,0.1)] rounded-full filter-btn {% if data == 'second-semester' %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
           2nd Semester
         </button>
       </a>
       <a href="/courses/fourth-semester">
-        <button class="px-5 py-2.5 rounded-full filter-btn {% if data == 'fourth-semester' %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
+        <button
+          class="px-5 py-2.5 border-[0.1px] border-[rgba(0,0,0,0.1)] rounded-full filter-btn {% if data == 'fourth-semester' %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
           4th Semester
         </button>
       </a>
       <a href="/courses/sixth-semester">
-        <button class="px-5 py-2.5 rounded-full filter-btn {% if data == 'sixth-semester' %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
+        <button
+          class="px-5 py-2.5 border-[0.1px] border-[rgba(0,0,0,0.1)] rounded-full filter-btn {% if data == 'sixth-semester' %}bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg{% else %}bg-white text-gray-800 hover:bg-gray-100 shadow-md{% endif %}">
           6th Semester
         </button>
       </a>
       {% endif %}
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 animate__animated animate__fadeInUp">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 animate__animated animate__fadeInUp">
       {% for i in all %}
       <a href="{% url 'course_detail' i.id %}" class="block">
-        <div class="course-card h-full flex flex-col">
+        <div class="course-card h-full flex flex-col border-[0.1px] border-[rgba(0,0,0,0.1)]">
           <div class="overflow-hidden">
             <img src="{{ i.picture }}" alt="{{ i.name }}" class="w-full course-img">
           </div>
           <div class="p-6 flex-grow flex flex-col">
             <h2 class="text-xl font-bold mb-3 text-gray-800">{{ i.name }}</h2>
-            <p class="text-gray-600 mb-5 text-sm flex-grow">{{ i.description|truncatechars:100 }}</p>
+            <p class="text-gray-600 mb-2 text-sm flex-grow">{{ i.description|truncatechars:100 }}</p>
+            <div class="py-3">
+              <hr>
+            </div>
+            <div class="flex items-center justify-between">
+              <p
+                class="text-xl font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                ৳1399 <span class="text-sm line-through text-gray-500"> ৳1500</span></p>
+              <div class="bg-blue-100 w-fit rounded-lg p-0.5">
+                <p class="text-sm text-blue-600"> 30% OFF</p>
+              </div>
+            </div>
+
             <div class="flex justify-between items-center mt-auto">
-              <button class="details-btn text-white px-4 py-2 rounded-lg text-sm font-semibold">
+              <button class="bg-gradient-to-r hover:from-blue-700 hover:to-indigo-700 from-blue-600 to-indigo-600 mt-3 text-white px-5 py-2 rounded-lg text-sm font-semibold">
                 Course Details
               </button>
-              {% if not i.enroll %}
-                <button class="enroll-btn text-white px-5 py-2 rounded-lg text-sm font-semibold">
-                  Enroll Now
-                </button>
-              {% else %}
-                <button class="disabled-btn bg-gray-400 text-white px-5 py-2 rounded-lg text-sm font-semibold cursor-not-allowed" disabled>
-                  Enrollment Closed
-                </button>
-              {% endif %}
+
             </div>
           </div>
         </div>
@@ -217,4 +239,5 @@
 
   {% include 'footer.html' %}
 </body>
+
 </html>

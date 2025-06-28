@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,136 +8,29 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.2/dist/full.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    }
-    .video-container {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border-radius: 16px;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-    .video-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 16px;
-    }
-    .lesson-item {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      border-left: 3px solid transparent;
-    }
-    .lesson-item:hover {
-      transform: translateX(8px);
-      border-left-color: #4f46e5;
-      background: linear-gradient(90deg, rgba(79, 70, 229, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
-    }
-    .course-header {
-      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    }
-    .enroll-btn {
-      background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3), 0 2px 4px -1px rgba(16, 185, 129, 0.2);
-    }
-    .enroll-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.4), 0 4px 6px -2px rgba(16, 185, 129, 0.3);
-    }
-    .course-card {
-      border-radius: 16px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
-    .course-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-    .lesson-list-container {
-      scrollbar-width: thin;
-      scrollbar-color: #c7d2fe #f1f5f9;
-    }
-    .lesson-list-container::-webkit-scrollbar {
-      width: 6px;
-    }
-    .lesson-list-container::-webkit-scrollbar-track {
-      background: #f1f5f9;
-      border-radius: 10px;
-    }
-    .lesson-list-container::-webkit-scrollbar-thumb {
-      background-color: #c7d2fe;
-      border-radius: 10px;
-    }
-    .glow-text {
-      text-shadow: 0 0 8px rgba(79, 70, 229, 0.3);
-    }
-    .pulse-animation {
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-      70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-    }
-    .course-image {
-      height: 100%;
-      object-fit: cover;
-      border-radius: 16px;
-    }
-    .enroll-card {
-      background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
-      border: 1px solid #e5e7eb;
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
 
-<body class="min-h-screen flex flex-col bg-gray-50">
+<body class="min-h-screen flex flex-col bg-[linear-gradient(135deg,#f8fafc_0%,#e2e8f0_100%)] font-['Inter']">
   {% include 'header.html' %}
 
   <main class="flex-grow">
     <div class="max-w-7xl mx-auto px-4 py-8">
-      <!-- Course Header -->
-      <div class="course-header rounded-2xl p-6 mb-8 text-white animate__animated animate__fadeIn">
+      <div
+        class="rounded-2xl p-6 mb-8 text-white animate__animated animate__fadeIn bg-[linear-gradient(135deg,#4f46e5_0%,#7c3aed_100%)] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div>
-            <h1 class="text-3xl md:text-4xl font-bold mb-2 glow-text">{{ course.name }}</h1>
-            <!-- <p class="text-indigo-100 max-w-3xl">{{ course.description }}</p> -->
+            <h1 class="text-3xl md:text-4xl font-bold mb-2 [text-shadow:0_0_8px_rgba(79,70,229,0.3)]">{{ course.name }}
+            </h1>
           </div>
-          {% if not enrolled %}
-          <form action="" method="POST" class="w-full md:w-auto">
-            {% csrf_token %}
-            <button type="submit" class="enroll-btn pulse-animation w-full md:w-auto px-8 py-3 rounded-full bg-green-700 text-blue font-semibold flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
-              </svg>
-              Enroll Now
-            </button>
-          </form>
-          {% else %}
-          <div class="bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full font-medium flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-            </svg>
-            Enrolled
-          </div>
-          {% endif %}
+
         </div>
       </div>
 
       {% if enrolled %}
-      <!-- Desktop View for Enrolled Users -->
       <div class="hidden lg:flex gap-8 animate__animated animate__fadeInUp">
-        <!-- Lesson List -->
         <section class="w-1/3">
-          <div class="bg-white rounded-2xl shadow-xl sticky top-4 overflow-hidden h-[80vh]">
+          <div class="bg-white rounded-2xl shadow-xl top-4 overflow-hidden h-[80vh]">
             <div class="bg-gradient-to-r from-indigo-600 to-blue-500 p-6">
               <h2 class="text-2xl font-bold text-white flex items-center gap-3">
                 <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -147,11 +41,12 @@
               </h2>
               <p class="text-indigo-100 mt-1">{{ video|length }} lessons • {{ course.duration }} hours</p>
             </div>
-            <div class="p-4 h-[calc(100%-120px)] overflow-y-auto lesson-list-container">
+            <div
+              class="p-4 h-[calc(100%-120px)] overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#c7d2fe_#f1f5f9]">
               <div class="space-y-2">
                 {% for lesson in video %}
                 <button
-                  class="lesson-item w-full text-left p-4 rounded-lg flex items-center gap-3 bg-white hover:bg-blue-50 border border-gray-100"
+                  class="w-full text-left p-4 rounded-lg flex items-center gap-3 bg-white hover:bg-blue-50 border border-gray-100 transition-all [cubic-bezier(0.4,0,0.2,1)] duration-300 border-l-[3px] border-l-transparent hover:translate-x-2 hover:border-l-indigo-600 hover:bg-[linear-gradient(90deg,rgba(79,70,229,0.05)_0%,rgba(255,255,255,0)_100%)]"
                   onclick="switchVideo('{{ lesson.video_url }}', '{{ lesson.title }}', '{{ forloop.counter }}')">
                   <div class="bg-blue-100 p-2 rounded-full">
                     <svg class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -173,20 +68,20 @@
           </div>
         </section>
 
-        <!-- Video Player -->
         <section class="w-2/3">
-          <div class="course-card bg-white rounded-2xl overflow-hidden">
-            <div class="video-container">
+          <div
+            class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)] hover:translate-y-[-5px] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)] transition-all [cubic-bezier(0.4,0,0.2,1)] duration-300">
+            <div
+              class="relative pb-[56.25%] h-0 overflow-hidden rounded-2xl shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)]">
               {% if video %}
-              <iframe 
-                id="videoPlayer"
+              <iframe id="videoPlayer"
                 src="https://www.youtube.com/embed/{{ video.0.video_url }}?autoplay=0&rel=0&modestbranding=1&controls=1"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-              </iframe>
+                allowfullscreen class="absolute top-0 left-0 w-full h-full rounded-2xl"></iframe>
               {% else %}
-              <div class="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center rounded-2xl">
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center rounded-2xl">
                 <div class="text-center p-8 max-w-md">
                   <svg class="h-16 w-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -199,7 +94,8 @@
               {% endif %}
             </div>
             <div class="p-8">
-              <h1 id="videoTitle" class="text-3xl font-bold text-gray-800 mb-4">{{ video.0.title|default:"No video selected" }}</h1>
+              <h1 id="videoTitle" class="text-3xl font-bold text-gray-800 mb-4">{{ video.0.title|default:"No video
+                selected" }}</h1>
               <div class="flex flex-wrap items-center gap-4 mb-6">
                 <div class="flex items-center gap-2 text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full">
                   <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -220,32 +116,30 @@
               </div>
               <div class="prose max-w-none">
                 <h2 class="text-xl font-semibold text-gray-800 mb-3">About this lesson</h2>
-                <p class="text-gray-600">{{ video.0.description|default:"This lesson covers the fundamental concepts you need to understand before moving forward with the course." }}</p>
+                <p class="text-gray-600">{{ video.0.description|default:"This lesson covers the fundamental concepts you
+                  need to understand before moving forward with the course." }}</p>
               </div>
             </div>
           </div>
         </section>
       </div>
 
-      <!-- Mobile View for Enrolled Users -->
       <div class="lg:hidden animate__animated animate__fadeIn">
-        <div class="video-container mb-6">
+        <div
+          class="relative pb-[56.25%] h-0 overflow-hidden rounded-2xl mb-6 shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)]">
           {% if video %}
-          <iframe 
-            id="videoPlayerMobile"
+          <iframe id="videoPlayerMobile"
             src="https://www.youtube.com/embed/{{ video.0.video_url }}?autoplay=0&rel=0&modestbranding=1"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
+            allowfullscreen class="absolute top-0 left-0 w-full h-full rounded-2xl"></iframe>
           {% else %}
-          <div class="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center rounded-2xl">
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center rounded-2xl">
             <h3 class="text-xl text-gray-600">No videos available yet</h3>
           </div>
           {% endif %}
         </div>
-
-        
 
         <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
           <svg class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -257,7 +151,7 @@
         <div class="space-y-2">
           {% for lesson in video %}
           <button
-            class="lesson-item w-full text-left p-4 rounded-lg flex items-center gap-3 bg-white hover:bg-blue-50 border border-gray-200"
+            class="w-full text-left p-4 rounded-lg flex items-center gap-3 bg-white hover:bg-blue-50 border border-gray-200 transition-all [cubic-bezier(0.4,0,0.2,1)] duration-300 border-l-[3px] border-l-transparent hover:translate-x-2 hover:border-l-indigo-600 hover:bg-[linear-gradient(90deg,rgba(79,70,229,0.05)_0%,rgba(255,255,255,0)_100%)]"
             onclick="switchVideo('{{ lesson.video_url }}', '{{ lesson.title }}', '{{ forloop.counter }}')">
             <div class="bg-blue-100 p-2 rounded-full">
               <svg class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -278,12 +172,11 @@
       </div>
 
       {% else %}
-      <!-- Course Details for Non-Enrolled Users -->
       <div class="animate__animated animate__fadeIn">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div class="lg:col-span-2">
-            <!-- Course Content Section for Non-Enrolled Users -->
-            <div class="course-card bg-white rounded-2xl overflow-hidden">
+            <div
+              class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)] hover:translate-y-[-5px] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)] transition-all [cubic-bezier(0.4,0,0.2,1)] duration-300">
               <div class="p-6">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
                   <svg class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -292,31 +185,35 @@
                   </svg>
                   Course Content
                 </h2>
-                
-                <!-- Course Image Placeholder -->
+
                 <div class="mb-6">
-                  <img  src="{{ course.picture }}" alt="{{ course.name }}" class="w-full course-image">
+                  <img src="{{ course.picture }}" alt="{{ course.name }}"
+                    class="w-full h-full object-cover rounded-2xl">
                 </div>
-                
-                <!-- Enrollment Card -->
-                <div class="enroll-card rounded-xl p-6 mb-8 text-center">
+
+                <div
+                  class="rounded-xl p-6 mb-8 text-center bg-[linear-gradient(135deg,#ffffff_0%,#f9fafb_100%)] border border-gray-200">
                   <h3 class="text-xl font-semibold text-gray-800 mb-3">Enroll to Access All Content</h3>
-                  <p class="text-gray-600  mb-5">This course contains {{ video|length }} lessons and {{ course.duration }} hours of premium content</p>
+                  <p class="text-gray-600 mb-5">This course contains {{ video|length }} lessons and {{ course.duration
+                    }} hours of premium content</p>
                   <form action="" method="POST">
                     {% csrf_token %}
-                    <button type="submit" class="enroll-btn bg-blue-400 pulse-animation w-full py-3 rounded-full text-blue-700 font-semibold flex items-center justify-center gap-2 mx-auto max-w-xs">
+                    <button type="submit"
+                      class="w-full py-3 rounded-full font-semibold flex items-center justify-center gap-2 mx-auto max-w-xs bg-[linear-gradient(135deg,#10b981_0%,#34d399_100%)] shadow-[0_4px_6px_-1px_rgba(16,185,129,0.3),0_2px_4px_-1px_rgba(16,185,129,0.2)] hover:translate-y-[-2px] hover:shadow-[0_10px_15px_-3px_rgba(16,185,129,0.4),0_4px_6px_-2px_rgba(16,185,129,0.3)] transition-all ease-in-out duration-300 [animation:pulse_2s_infinite]">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                        <path fill-rule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                          clip-rule="evenodd" />
                       </svg>
-                     <p class="text-blue-700"> Enroll Now </p>
+                      Enroll Now
                     </button>
                   </form>
                 </div>
-                
-                <!-- Lesson List (Preview) -->
+
                 <div class="space-y-4">
                   {% for lesson in video|slice:":3" %}
-                  <div class="lesson-item p-4 rounded-lg flex items-center gap-3 bg-gray-50 border border-gray-200 opacity-80">
+                  <div
+                    class="p-4 rounded-lg flex items-center gap-3 bg-gray-50 border border-gray-200 opacity-80 transition-all [cubic-bezier(0.4,0,0.2,1)] duration-300 border-l-[3px] border-l-transparent">
                     <div class="bg-gray-200 p-2 rounded-full">
                       <svg class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -339,8 +236,8 @@
               </div>
             </div>
 
-            <!-- About This Course Section -->
-            <div class="course-card bg-white rounded-2xl p-6 mt-6">
+            <div
+              class="bg-white rounded-2xl p-6 mt-6 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)] hover:translate-y-[-5px] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)] transition-all [cubic-bezier(0.4,0,0.2,1)] duration-300">
               <h2 class="text-2xl font-bold text-gray-800 mb-4">About This Course</h2>
               <div class="prose max-w-none text-gray-600">
                 {{ course.long_description|safe }}
@@ -348,14 +245,16 @@
             </div>
           </div>
 
-          <!-- Course Details Sidebar -->
           <div class="lg:col-span-1">
-            <div class="course-card bg-white rounded-2xl p-6 sticky top-4">
+            <div
+              class="bg-white rounded-2xl p-6 shadow-md hover:-translate-y-1 hover:shadow-lg transition duration-300 ease-in-out">
+
               <h3 class="text-xl font-bold text-gray-800 mb-4">Course Details</h3>
               <div class="space-y-4">
                 <div class="flex items-start gap-3">
                   <svg class="h-5 w-5 text-indigo-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <div>
                     <h4 class="font-medium text-gray-700">Duration</h4>
@@ -364,7 +263,8 @@
                 </div>
                 <div class="flex items-start gap-3">
                   <svg class="h-5 w-5 text-indigo-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                   </svg>
                   <div>
                     <h4 class="font-medium text-gray-700">Lessons</h4>
@@ -373,7 +273,8 @@
                 </div>
                 <div class="flex items-start gap-3">
                   <svg class="h-5 w-5 text-indigo-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <div>
                     <h4 class="font-medium text-gray-700">Certificate</h4>
@@ -382,7 +283,8 @@
                 </div>
                 <div class="flex items-start gap-3">
                   <svg class="h-5 w-5 text-indigo-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                   <div>
                     <h4 class="font-medium text-gray-700">Instructor</h4>
@@ -393,12 +295,20 @@
 
               <form action="" method="POST" class="mt-6">
                 {% csrf_token %}
-                <button type="submit" class="enroll-btn pulse-animation w-full py-3 rounded-full text-blue font-semibold flex items-center justify-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
-                  </svg>
-                  <p class="text-blue-400 center">Enroll Now</p>
+                <button type="submit"
+                  class="w-full rounded-full font-semibold flex items-center justify-center gap-2 bg-gradient-to-r from-blue-400 to-blue-600 p-[2px]">
+                  <div class="w-full h-full flex items-center justify-center rounded-full bg-white">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                      class="h-5 w-5 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600"
+                      viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                        clip-rule="evenodd" />
+                    </svg>
+                    <p class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 py-2">Enroll Now</p>
+                  </div>
                 </button>
+
               </form>
             </div>
           </div>
@@ -412,34 +322,34 @@
 
   <script>
     function switchVideo(videoUrl, title, lessonNumber) {
-      // Update desktop video player
+
       const desktopIframe = document.querySelector("#videoPlayer");
       if (desktopIframe) {
         desktopIframe.src = `https://www.youtube.com/embed/${videoUrl}?autoplay=1&rel=0&modestbranding=1`;
       }
-      
+
       // Update mobile video player
       const mobileIframe = document.querySelector("#videoPlayerMobile");
       if (mobileIframe) {
         mobileIframe.src = `https://www.youtube.com/embed/${videoUrl}?autoplay=1&rel=0&modestbranding=1`;
       }
-      
+
       // Update titles
       const desktopTitle = document.getElementById("videoTitle");
       if (desktopTitle) {
         desktopTitle.textContent = title;
       }
-      
+
       const mobileTitle = document.getElementById("videoTitleMobile");
       if (mobileTitle) {
         mobileTitle.textContent = title;
       }
-      
+
       // Update active lesson indicator
       document.querySelectorAll('.lesson-item').forEach(item => {
         item.querySelectorAll('span.bg-blue-100').forEach(span => span.remove());
       });
-      
+
       const activeLesson = document.querySelector(`.lesson-item:nth-child(${lessonNumber})`);
       if (activeLesson) {
         const activeBadge = document.createElement('span');
@@ -450,4 +360,5 @@
     }
   </script>
 </body>
+
 </html>

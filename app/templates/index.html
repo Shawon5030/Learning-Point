@@ -1,68 +1,88 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Engineering Pro – Diploma Courses</title>
+    <title>Learners Point</title>
 
     <!-- Tailwind & daisyUI -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.0/dist/full.css" rel="stylesheet" />
-    
+
     <!-- Animate.css -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
     <style>
         .hero-gradient {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
+
         .course-card {
             transition: all 0.3s ease;
         }
+
         .course-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
+
         .testimonial-card {
             transition: transform 0.3s ease;
         }
+
         .testimonial-card:hover {
             transform: scale(1.02);
         }
+
         .floating {
             animation: floating 3s ease-in-out infinite;
         }
-        .cou-image{
+
+        .cou-image {
             width: 100%;
             height: 100%;
         }
+
         @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
         }
-        
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .hero-content {
                 text-align: center;
             }
+
             .hero-buttons {
                 flex-direction: column;
                 gap: 1rem;
             }
+
             .course-card {
                 margin-bottom: 1.5rem;
             }
+
             .testimonial-carousel {
                 padding: 0;
             }
         }
-        
+
         @media (max-width: 640px) {
             .feature-card {
                 margin-bottom: 1.5rem;
             }
+
             .cta-buttons {
                 flex-direction: column;
                 gap: 1rem;
@@ -79,70 +99,75 @@
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center">
             <div class="md:w-1/2 text-center md:text-left animate__animated animate__fadeInLeft mb-8 md:mb-0">
                 <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6">Master Engineering Concepts</h1>
-                <p class="text-lg sm:text-xl mb-6 md:mb-8">Premium diploma courses designed for engineering students to boost their technical skills.</p>
+                <p class="text-lg sm:text-xl mb-6 md:mb-8">Premium diploma courses designed for engineering students to
+                    boost their technical skills.</p>
                 <div class="flex flex-col sm:flex-row gap-4">
                     <button class="btn btn-primary btn-md sm:btn-lg w-full sm:w-auto">Explore Courses</button>
-                    <button class="btn btn-outline btn-md sm:btn-lg text-white hover:bg-white hover:text-purple-700 w-full sm:w-auto">Learn More</button>
+                    <button
+                        class="btn btn-outline btn-md sm:btn-lg text-white hover:bg-white hover:text-purple-700 w-full sm:w-auto">Learn
+                        More</button>
                 </div>
             </div>
             <div class="md:w-1/2 flex justify-center animate__animated animate__fadeInRight">
-                <img src="https://karigoriphatshala.sgp1.digitaloceanspaces.com/courses/I3fN7uYhV5txl8gMXdl8DXMMeDlj4AT6.jpg" 
-                     alt="Engineering Student" 
-                     class="rounded-lg shadow-2xl floating w-full max-w-xs sm:max-w-sm md:max-w-md" />
+                <img src="https://karigoriphatshala.sgp1.digitaloceanspaces.com/courses/I3fN7uYhV5txl8gMXdl8DXMMeDlj4AT6.jpg"
+                    alt="Engineering Student"
+                    class="rounded-lg shadow-2xl floating w-full max-w-xs sm:max-w-sm md:max-w-md" />
             </div>
         </div>
     </section>
 
     <!-- ================= FEATURED COURSES ================= -->
     <section class="py-12 md:py-20 px-4 max-w-7xl mx-auto bg-white">
-        <div class="text-center mb-8 md:mb-16 animate__animated animate__fadeIn">
+        <div class="text-center mb-8 md:mb-16 ">
             <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 md:mb-4">Featured Engineering Courses</h2>
-            <p class="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">Hands-on courses designed by industry experts</p>
+            <p class="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">Hands-on courses designed by
+                industry experts</p>
         </div>
-        
+
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {% for course in courses %}
-            <a href="{%url 'course_detail' course.id%}" class="block transition-all duration-300 course-card">
+            <a href="{% url 'course_detail' course.id %}"
+                class="block transform transition-transform duration-300 hover:-translate-y-2">
                 <div class="card bg-base-100 shadow-md md:shadow-lg border border-gray-100 overflow-hidden h-full">
                     <figure class="relative">
-                        <img class="cou-image" src="{{course.picture}}" alt="{{course.name}}" class="w-full h-40 sm:h-48 object-cover" />
-                        <div class="absolute top-2 right-2 sm:top-4 sm:right-4 badge badge-primary badge-sm sm:badge-md">Diploma</div>
+                        <img class="cou-image" src="{{course.picture}}" alt="{{course.name}}"
+                            class="w-full h-40 sm:h-48 object-cover" />
+                        <div
+                            class="absolute top-2 right-2 sm:top-4 sm:right-4 badge badge-primary badge-sm sm:badge-md">
+                            Diploma</div>
                     </figure>
                     <div class="card-body p-4 sm:p-6">
                         <div class="flex justify-between items-start">
                             <h2 class="card-title text-xl sm:text-2xl">{{course.name}}</h2>
-                            <span class="badge badge-outline badge-sm sm:badge-md">{{course.category}}</span>
                         </div>
-                        <p class="text-gray-600 text-sm sm:text-base mt-2">{{course.short_description|default:"Essential engineering concepts"}}</p>
-                        
+                        <p class="text-gray-600 text-sm sm:text-base mt-2">{{course.short_description|default:"Essential Engineering concepts"}}</p>
                         <div class="mt-4 sm:mt-6 flex items-center justify-between">
                             <div class="flex items-center">
                                 <div class="avatar-group -space-x-3">
-                                    
                                     <div class="avatar">
                                         <div class="w-6 sm:w-8">
-                                            <img src="{{course.instructor.image}}" alt="{{course.instructor.name}}" class="rounded-full" />
+                                            <img src="{{course.instructor.image}}" alt="{{course.instructor.name}}"
+                                                class="rounded-full" />
                                         </div>
                                     </div>
-                                   
-                                   
+
                                 </div>
-                                <span class="ml-2 text-xs sm:text-sm">1 Instructors</span>
+                                <span class="ml-2 text-xs sm:text-sm">1 Instructor</span>
                             </div>
-                            <span class="text-lg sm:text-xl font-bold text-primary">${{course.price}}</span>
+                            <span class="text-lg sm:text-xl font-bold text-primary">BDT {{course.price}}</span>
                         </div>
-                        
+
                         <div class="card-actions mt-3 sm:mt-4">
-                            <button class="btn btn-primary btn-sm sm:btn-md w-full">Enroll Now</button>
+                            <button class="btn btn-primary w-full">View Details</button>
                         </div>
                     </div>
                 </div>
             </a>
             {% endfor %}
         </div>
-        
+
         <div class="text-center mt-8 md:mt-12">
-            <button class="btn btn-outline btn-sm md:btn-md animate__animated animate__pulse animate__infinite">View All Courses</button>
+            <button class="btn btn-outline">View All Courses</button>
         </div>
     </section>
 
@@ -151,39 +176,51 @@
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-8 md:mb-16">
                 <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 md:mb-4">Why Choose Engineering Pro?</h2>
-                <p class="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">We're committed to your engineering education success</p>
+                <p class="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">We're committed to your
+                    engineering education success</p>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                <div class="card bg-white shadow-sm md:shadow-lg hover:shadow-xl transition-shadow duration-300 feature-card">
+                <div
+                    class="card bg-white shadow-sm md:shadow-lg hover:shadow-xl transition-shadow duration-300 feature-card">
                     <div class="card-body items-center text-center p-4 sm:p-6">
                         <div class="p-3 sm:p-4 rounded-full bg-blue-100 text-blue-600 mb-3 sm:mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 sm:h-10 w-8 sm:w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 sm:h-10 w-8 sm:w-10" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                             </svg>
                         </div>
                         <h3 class="text-lg sm:text-xl font-bold mb-1 sm:mb-2">Industry-Relevant</h3>
-                        <p class="text-gray-600 text-sm sm:text-base">Courses designed with input from engineering professionals.</p>
+                        <p class="text-gray-600 text-sm sm:text-base">Courses designed with input from engineering
+                            professionals.</p>
                     </div>
                 </div>
-                
-                <div class="card bg-white shadow-sm md:shadow-lg hover:shadow-xl transition-shadow duration-300 feature-card">
+
+                <div
+                    class="card bg-white shadow-sm md:shadow-lg hover:shadow-xl transition-shadow duration-300 feature-card">
                     <div class="card-body items-center text-center p-4 sm:p-6">
                         <div class="p-3 sm:p-4 rounded-full bg-purple-100 text-purple-600 mb-3 sm:mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 sm:h-10 w-8 sm:w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 sm:h-10 w-8 sm:w-10" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                             </svg>
                         </div>
                         <h3 class="text-lg sm:text-xl font-bold mb-1 sm:mb-2">Practical Projects</h3>
-                        <p class="text-gray-600 text-sm sm:text-base">Hands-on projects that simulate real-world challenges.</p>
+                        <p class="text-gray-600 text-sm sm:text-base">Hands-on projects that simulate real-world
+                            challenges.</p>
                     </div>
                 </div>
-                
-                <div class="card bg-white shadow-sm md:shadow-lg hover:shadow-xl transition-shadow duration-300 feature-card">
+
+                <div
+                    class="card bg-white shadow-sm md:shadow-lg hover:shadow-xl transition-shadow duration-300 feature-card">
                     <div class="card-body items-center text-center p-4 sm:p-6">
                         <div class="p-3 sm:p-4 rounded-full bg-green-100 text-green-600 mb-3 sm:mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 sm:h-10 w-8 sm:w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 sm:h-10 w-8 sm:w-10" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                             </svg>
                         </div>
                         <h3 class="text-lg sm:text-xl font-bold mb-1 sm:mb-2">Career Support</h3>
@@ -195,239 +232,245 @@
     </section>
 
     <!-- ================= TESTIMONIALS ================= -->
-<section class="py-12 md:py-20 bg-gradient-to-r from-blue-50 to-purple-50 px-4">
-    <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-8 md:mb-16">
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 md:mb-4">Success Stories</h2>
-            <p class="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">What our engineering students say about us</p>
-        </div>
-        
-        <!-- Improved Carousel Container -->
-        <div class="relative">
-            <!-- Carousel Track -->
-            <div class="overflow-hidden">
-                <div class="flex transition-transform duration-300 ease-in-out" id="testimonial-track">
-                    <!-- Testimonial 1 -->
-                    <div class="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 px-2">
-                        <div class="card bg-white shadow-md md:shadow-lg h-full">
-                            <div class="card-body p-4 sm:p-6">
-                                <div class="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
-                                    <div class="avatar">
-                                        <div class="w-12 sm:w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-1 sm:ring-offset-2">
-                                            <img src="https://source.unsplash.com/100x100/?portrait,engineer" alt="Student" />
+    <section class="py-12 md:py-20 bg-gradient-to-r from-blue-50 to-purple-50 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-8 md:mb-16">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 md:mb-4">Success Stories</h2>
+                <p class="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">What our engineering students
+                    say about us</p>
+            </div>
+
+            <!-- Improved Carousel Container -->
+            <div class="relative">
+                <!-- Carousel Track -->
+                <div class="overflow-hidden">
+                    <div class="flex transition-transform duration-300 ease-in-out" id="testimonial-track">
+                        <!-- Testimonial 1 -->
+                        <div class="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 px-2">
+                            <div class="card bg-white shadow-md md:shadow-lg h-full">
+                                <div class="card-body p-4 sm:p-6">
+                                    <div class="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+                                        <div class="avatar">
+                                            <div
+                                                class="w-12 sm:w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-1 sm:ring-offset-2">
+                                                <img src="https://source.unsplash.com/100x100/?portrait,engineer"
+                                                    alt="Student" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-bold text-sm sm:text-base">Rahul Sharma</h3>
+                                            <p class="text-xs sm:text-sm text-gray-600">Mechanical Engineering</p>
                                         </div>
                                     </div>
-                                    <div>
-                                        <h3 class="font-bold text-sm sm:text-base">Rahul Sharma</h3>
-                                        <p class="text-xs sm:text-sm text-gray-600">Mechanical Engineering</p>
+                                    <div class="flex text-yellow-400 mb-2 text-sm sm:text-base">
+                                        <span>★★★★★</span>
                                     </div>
+                                    <p class="text-gray-600 text-xs sm:text-sm">"The CAD modeling course helped me
+                                        secure an internship at a leading automotive company."</p>
                                 </div>
-                                <div class="flex text-yellow-400 mb-2 text-sm sm:text-base">
-                                    <span>★★★★★</span>
-                                </div>
-                                <p class="text-gray-600 text-xs sm:text-sm">"The CAD modeling course helped me secure an internship at a leading automotive company."</p>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Testimonial 2 -->
-                    <div class="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 px-2">
-                        <div class="card bg-white shadow-md md:shadow-lg h-full">
-                            <div class="card-body p-4 sm:p-6">
-                                <div class="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
-                                    <div class="avatar">
-                                        <div class="w-12 sm:w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-1 sm:ring-offset-2">
-                                            <img src="https://source.unsplash.com/100x100/?portrait,student" alt="Student" />
+
+                        <!-- Testimonial 2 -->
+                        <div class="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 px-2">
+                            <div class="card bg-white shadow-md md:shadow-lg h-full">
+                                <div class="card-body p-4 sm:p-6">
+                                    <div class="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+                                        <div class="avatar">
+                                            <div
+                                                class="w-12 sm:w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-1 sm:ring-offset-2">
+                                                <img src="https://source.unsplash.com/100x100/?portrait,student"
+                                                    alt="Student" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-bold text-sm sm:text-base">Priya Patel</h3>
+                                            <p class="text-xs sm:text-sm text-gray-600">Electrical Engineering</p>
                                         </div>
                                     </div>
-                                    <div>
-                                        <h3 class="font-bold text-sm sm:text-base">Priya Patel</h3>
-                                        <p class="text-xs sm:text-sm text-gray-600">Electrical Engineering</p>
+                                    <div class="flex text-yellow-400 mb-2 text-sm sm:text-base">
+                                        <span>★★★★★</span>
                                     </div>
+                                    <p class="text-gray-600 text-xs sm:text-sm">"I doubled my salary after completing
+                                        the industrial automation course."</p>
                                 </div>
-                                <div class="flex text-yellow-400 mb-2 text-sm sm:text-base">
-                                    <span>★★★★★</span>
-                                </div>
-                                <p class="text-gray-600 text-xs sm:text-sm">"I doubled my salary after completing the industrial automation course."</p>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Testimonial 3 -->
-                    <div class="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 px-2">
-                        <div class="card bg-white shadow-md md:shadow-lg h-full">
-                            <div class="card-body p-4 sm:p-6">
-                                <div class="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
-                                    <div class="avatar">
-                                        <div class="w-12 sm:w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-1 sm:ring-offset-2">
-                                            <img class="cou-image" src="https://source.unsplash.com/100x100/?portrait,man" alt="Student" />
+
+                        <!-- Testimonial 3 -->
+                        <div class="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 px-2">
+                            <div class="card bg-white shadow-md md:shadow-lg h-full">
+                                <div class="card-body p-4 sm:p-6">
+                                    <div class="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+                                        <div class="avatar">
+                                            <div
+                                                class="w-12 sm:w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-1 sm:ring-offset-2">
+                                                <img class="cou-image"
+                                                    src="https://source.unsplash.com/100x100/?portrait,man"
+                                                    alt="Student" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-bold text-sm sm:text-base">Amit Kumar</h3>
+                                            <p class="text-xs sm:text-sm text-gray-600">Civil Engineering</p>
                                         </div>
                                     </div>
-                                    <div>
-                                        <h3 class="font-bold text-sm sm:text-base">Amit Kumar</h3>
-                                        <p class="text-xs sm:text-sm text-gray-600">Civil Engineering</p>
+                                    <div class="flex text-yellow-400 mb-2 text-sm sm:text-base">
+                                        <span>★★★★☆</span>
                                     </div>
+                                    <p class="text-gray-600 text-xs sm:text-sm">"The structural analysis course filled
+                                        all the gaps in my diploma program."</p>
                                 </div>
-                                <div class="flex text-yellow-400 mb-2 text-sm sm:text-base">
-                                    <span>★★★★☆</span>
-                                </div>
-                                <p class="text-gray-600 text-xs sm:text-sm">"The structural analysis course filled all the gaps in my diploma program."</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Navigation Arrows -->
-            <button class="absolute left-0 top-1/2 -translate-y-1/2 -ml-2 sm:-ml-4 btn btn-circle btn-sm sm:btn-md hidden sm:flex" id="prev-btn">
-                ❮
-            </button>
-            <button class="absolute right-0 top-1/2 -translate-y-1/2 -mr-2 sm:-mr-4 btn btn-circle btn-sm sm:btn-md hidden sm:flex" id="next-btn">
-                ❯
-            </button>
-            
-            <!-- Mobile Indicators -->
-            <div class="flex justify-center gap-2 mt-6 sm:hidden" id="mobile-indicators">
-                <button class="w-3 h-3 rounded-full bg-gray-300 indicator-dot" data-index="0"></button>
-                <button class="w-3 h-3 rounded-full bg-gray-300 indicator-dot" data-index="1"></button>
-                <button class="w-3 h-3 rounded-full bg-gray-300 indicator-dot" data-index="2"></button>
-            </div>
-        </div>
-    </div>
-</section>
 
-    <!-- ================= CTA SECTION ================= -->
-    <section class="py-12 md:py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6">Ready to Boost Your Engineering Career?</h2>
-            <p class="text-base sm:text-lg md:text-xl mb-6 md:mb-8 max-w-2xl mx-auto">Join thousands of diploma students who've transformed their careers.</p>
-            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center cta-buttons">
-                <button class="btn btn-primary btn-sm sm:btn-md md:btn-lg animate__animated animate__pulse animate__infinite">Enroll Today</button>
-                <button class="btn btn-outline btn-sm sm:btn-md md:btn-lg text-white hover:bg-white hover:text-purple-700">Speak to Advisor</button>
+                <!-- Navigation Arrows -->
+                <button
+                    class="absolute left-0 top-1/2 -translate-y-1/2 -ml-2 sm:-ml-4 btn btn-circle btn-sm sm:btn-md hidden sm:flex"
+                    id="prev-btn">
+                    ❮
+                </button>
+                <button
+                    class="absolute right-0 top-1/2 -translate-y-1/2 -mr-2 sm:-mr-4 btn btn-circle btn-sm sm:btn-md hidden sm:flex"
+                    id="next-btn">
+                    ❯
+                </button>
+
+                <!-- Mobile Indicators -->
+                <div class="flex justify-center gap-2 mt-6 sm:hidden" id="mobile-indicators">
+                    <button class="w-3 h-3 rounded-full bg-gray-300 indicator-dot" data-index="0"></button>
+                    <button class="w-3 h-3 rounded-full bg-gray-300 indicator-dot" data-index="1"></button>
+                    <button class="w-3 h-3 rounded-full bg-gray-300 indicator-dot" data-index="2"></button>
+                </div>
             </div>
         </div>
     </section>
 
+
+
     {% include "footer.html" %}
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Mobile menu toggle functionality would go here
             // Example:
             const mobileMenuButton = document.getElementById('mobile-menu-button');
-             const mobileMenu = document.getElementById('mobile-menu');
-             mobileMenuButton.addEventListener('click', () => {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
-             });
-            
+            });
+
             // Initialize carousel functionality if needed
         });
     </script>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const track = document.getElementById('testimonial-track');
-        const items = document.querySelectorAll('#testimonial-track > div');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const indicators = document.querySelectorAll('.indicator-dot');
-        
-        let currentIndex = 0;
-        const itemWidth = 100; // Percentage for mobile (full width)
-        
-        function updateCarousel() {
-            // For mobile (single item)
-            if (window.innerWidth < 640) {
-                track.style.transform = `translateX(-${currentIndex * itemWidth}%)`;
-            }
-            // For tablet (two items) and desktop (three items)
-            // The responsive CSS handles these cases
-            
-            // Update indicators
-            indicators.forEach((indicator, index) => {
-                if (index === currentIndex) {
-                    indicator.classList.add('bg-primary');
-                    indicator.classList.remove('bg-gray-300');
-                } else {
-                    indicator.classList.remove('bg-primary');
-                    indicator.classList.add('bg-gray-300');
+        document.addEventListener('DOMContentLoaded', function () {
+            const track = document.getElementById('testimonial-track');
+            const items = document.querySelectorAll('#testimonial-track > div');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const indicators = document.querySelectorAll('.indicator-dot');
+
+            let currentIndex = 0;
+            const itemWidth = 100; // Percentage for mobile (full width)
+
+            function updateCarousel() {
+                // For mobile (single item)
+                if (window.innerWidth < 640) {
+                    track.style.transform = `translateX(-${currentIndex * itemWidth}%)`;
                 }
-            });
-        }
-        
-        // Navigation
-        nextBtn.addEventListener('click', () => {
-            if (window.innerWidth < 640) {
-                currentIndex = (currentIndex + 1) % items.length;
-            } else if (window.innerWidth < 1024) {
-                // Tablet - move by one item (showing two at a time)
-                currentIndex = Math.min(currentIndex + 1, items.length - 2);
-            } else {
-                // Desktop - already showing all three
-                return;
+                // For tablet (two items) and desktop (three items)
+                // The responsive CSS handles these cases
+
+                // Update indicators
+                indicators.forEach((indicator, index) => {
+                    if (index === currentIndex) {
+                        indicator.classList.add('bg-primary');
+                        indicator.classList.remove('bg-gray-300');
+                    } else {
+                        indicator.classList.remove('bg-primary');
+                        indicator.classList.add('bg-gray-300');
+                    }
+                });
             }
-            updateCarousel();
-        });
-        
-        prevBtn.addEventListener('click', () => {
-            if (window.innerWidth < 640) {
-                currentIndex = (currentIndex - 1 + items.length) % items.length;
-            } else if (window.innerWidth < 1024) {
-                // Tablet
-                currentIndex = Math.max(currentIndex - 1, 0);
-            } else {
-                // Desktop - already showing all three
-                return;
-            }
-            updateCarousel();
-        });
-        
-        // Mobile indicator clicks
-        indicators.forEach(indicator => {
-            indicator.addEventListener('click', () => {
-                currentIndex = parseInt(indicator.getAttribute('data-index'));
+
+            // Navigation
+            nextBtn.addEventListener('click', () => {
+                if (window.innerWidth < 640) {
+                    currentIndex = (currentIndex + 1) % items.length;
+                } else if (window.innerWidth < 1024) {
+                    // Tablet - move by one item (showing two at a time)
+                    currentIndex = Math.min(currentIndex + 1, items.length - 2);
+                } else {
+                    // Desktop - already showing all three
+                    return;
+                }
                 updateCarousel();
             });
-        });
-        
-        // Initialize
-        updateCarousel();
-        
-        // Handle window resize
-        window.addEventListener('resize', updateCarousel);
-    });
-</script>
 
-<style>
-    /* Custom styles for the carousel */
-    #testimonial-track {
-        display: flex;
-        width: 100%;
-    }
-    
-    /* Mobile - single item */
-    @media (max-width: 639px) {
-        #testimonial-track > div {
+            prevBtn.addEventListener('click', () => {
+                if (window.innerWidth < 640) {
+                    currentIndex = (currentIndex - 1 + items.length) % items.length;
+                } else if (window.innerWidth < 1024) {
+                    // Tablet
+                    currentIndex = Math.max(currentIndex - 1, 0);
+                } else {
+                    // Desktop - already showing all three
+                    return;
+                }
+                updateCarousel();
+            });
+
+            // Mobile indicator clicks
+            indicators.forEach(indicator => {
+                indicator.addEventListener('click', () => {
+                    currentIndex = parseInt(indicator.getAttribute('data-index'));
+                    updateCarousel();
+                });
+            });
+
+            // Initialize
+            updateCarousel();
+
+            // Handle window resize
+            window.addEventListener('resize', updateCarousel);
+        });
+    </script>
+
+    <style>
+        /* Custom styles for the carousel */
+        #testimonial-track {
+            display: flex;
             width: 100%;
-            padding: 0 0.5rem;
         }
-    }
-    
-    /* Tablet - two items */
-    @media (min-width: 640px) and (max-width: 1023px) {
-        #testimonial-track > div {
-            width: 50%;
-            padding: 0 0.5rem;
+
+        /* Mobile - single item */
+        @media (max-width: 639px) {
+            #testimonial-track>div {
+                width: 100%;
+                padding: 0 0.5rem;
+            }
         }
-    }
-    
-    /* Desktop - three items */
-    @media (min-width: 1024px) {
-        #testimonial-track > div {
-            width: 33.333%;
-            padding: 0 0.5rem;
+
+        /* Tablet - two items */
+        @media (min-width: 640px) and (max-width: 1023px) {
+            #testimonial-track>div {
+                width: 50%;
+                padding: 0 0.5rem;
+            }
         }
-    }
-</style>
+
+        /* Desktop - three items */
+        @media (min-width: 1024px) {
+            #testimonial-track>div {
+                width: 33.333%;
+                padding: 0 0.5rem;
+            }
+        }
+    </style>
 </body>
+
 </html>
