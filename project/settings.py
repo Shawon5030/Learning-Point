@@ -134,6 +134,15 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = ('aiquestdjango@gmail.com')
 EMAIL_HOST_PASSWORD = ('mlwr mcts vnlt jdtr')
+
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",   # your custom static folder
+]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"  # for production collectstatic
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
