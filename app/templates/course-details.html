@@ -23,7 +23,6 @@
             <h1 class="text-3xl md:text-4xl font-bold mb-2 [text-shadow:0_0_8px_rgba(79,70,229,0.3)]">{{ course.name }}
             </h1>
           </div>
-
         </div>
       </div>
 
@@ -39,15 +38,16 @@
                 </svg>
                 Course Content
               </h2>
-              <p class="text-indigo-100 mt-1">{{ video|length }} lessons • {{ course.duration }} hours</p>
+              <p class="text-indigo-100 mt-1">{{ video|length }} lessons</p>
             </div>
             <div
               class="p-4 h-[calc(100%-120px)] overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#c7d2fe_#f1f5f9]">
               <div class="space-y-2">
                 {% for lesson in video %}
                 <button
-                  class="w-full text-left p-4 rounded-lg flex items-center gap-3 bg-white hover:bg-blue-50 border border-gray-100 transition-all [cubic-bezier(0.4,0,0.2,1)] duration-300 border-l-[3px] border-l-transparent hover:translate-x-2 hover:border-l-indigo-600 hover:bg-[linear-gradient(90deg,rgba(79,70,229,0.05)_0%,rgba(255,255,255,0)_100%)]"
-                  onclick="switchVideo('{{ lesson.video_url }}', '{{ lesson.title }}', '{{ forloop.counter }}')">
+                  class="w-full text-left p-4 rounded-lg flex items-center gap-3 bg-white hover:bg-blue-50 border border-gray-100 transition-all duration-300 border-l-[3px] border-l-transparent hover:translate-x-2 hover:border-l-indigo-600 lesson-item"
+                  onclick="switchVideo('{{ lesson.video_url }}', '{{ lesson.title }}', '{{ forloop.counter }}')"
+                  data-lesson="{{ forloop.counter }}">
                   <div class="bg-blue-100 p-2 rounded-full">
                     <svg class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -56,7 +56,6 @@
                   </div>
                   <div>
                     <h3 class="font-medium text-gray-800">{{ lesson.title }}</h3>
-                    <p class="text-sm text-gray-500">{{ lesson.duration }} min</p>
                   </div>
                   {% if forloop.first %}
                   <span class="ml-auto bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Playing</span>
@@ -70,14 +69,15 @@
 
         <section class="w-2/3">
           <div
-            class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)] hover:translate-y-[-5px] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)] transition-all [cubic-bezier(0.4,0,0.2,1)] duration-300">
+            class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)] hover:translate-y-[-5px] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)] transition-all duration-300">
             <div
               class="relative pb-[56.25%] h-0 overflow-hidden rounded-2xl shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)]">
               {% if video %}
               <iframe id="videoPlayer"
-                src="https://www.youtube.com/embed/{{ video.0.video_url }}?autoplay=0&rel=0&modestbranding=1&controls=1"
+                src=""
                 frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
                 allowfullscreen class="absolute top-0 left-0 w-full h-full rounded-2xl"></iframe>
               {% else %}
               <div
@@ -94,15 +94,14 @@
               {% endif %}
             </div>
             <div class="p-8">
-              <h1 id="videoTitle" class="text-3xl font-bold text-gray-800 mb-4">{{ video.0.title|default:"No video
-                selected" }}</h1>
+              <h1 id="videoTitle" class="text-3xl font-bold text-gray-800 mb-4">{{ video.0.title|default:"No video selected" }}</h1>
               <div class="flex flex-wrap items-center gap-4 mb-6">
                 <div class="flex items-center gap-2 text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full">
                   <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span class="text-sm">{{ video.0.duration|default:"12" }} min</span>
+                  <span class="text-sm">Video</span>
                 </div>
                 <div class="flex items-center gap-2 text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full">
                   <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -111,13 +110,12 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
-                  <span class="text-sm">{{ course.views }} views</span>
+                  <span class="text-sm">{{ course.views|default:"0" }} views</span>
                 </div>
               </div>
               <div class="prose max-w-none">
                 <h2 class="text-xl font-semibold text-gray-800 mb-3">About this lesson</h2>
-                <p class="text-gray-600">{{ video.0.description|default:"This lesson covers the fundamental concepts you
-                  need to understand before moving forward with the course." }}</p>
+                <p class="text-gray-600">{{ video.0.description|default:"This lesson covers the fundamental concepts you need to understand before moving forward with the course." }}</p>
               </div>
             </div>
           </div>
@@ -129,9 +127,10 @@
           class="relative pb-[56.25%] h-0 overflow-hidden rounded-2xl mb-6 shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)]">
           {% if video %}
           <iframe id="videoPlayerMobile"
-            src="https://www.youtube.com/embed/{{ video.0.video_url }}?autoplay=0&rel=0&modestbranding=1"
+            src=""
             frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen class="absolute top-0 left-0 w-full h-full rounded-2xl"></iframe>
           {% else %}
           <div
@@ -151,8 +150,9 @@
         <div class="space-y-2">
           {% for lesson in video %}
           <button
-            class="w-full text-left p-4 rounded-lg flex items-center gap-3 bg-white hover:bg-blue-50 border border-gray-200 transition-all [cubic-bezier(0.4,0,0.2,1)] duration-300 border-l-[3px] border-l-transparent hover:translate-x-2 hover:border-l-indigo-600 hover:bg-[linear-gradient(90deg,rgba(79,70,229,0.05)_0%,rgba(255,255,255,0)_100%)]"
-            onclick="switchVideo('{{ lesson.video_url }}', '{{ lesson.title }}', '{{ forloop.counter }}')">
+            class="w-full text-left p-4 rounded-lg flex items-center gap-3 bg-white hover:bg-blue-50 border border-gray-200 transition-all duration-300 border-l-[3px] border-l-transparent hover:translate-x-2 hover:border-l-indigo-600 lesson-item"
+            onclick="switchVideo('{{ lesson.video_url }}', '{{ lesson.title }}', '{{ forloop.counter }}')"
+            data-lesson="{{ forloop.counter }}">
             <div class="bg-blue-100 p-2 rounded-full">
               <svg class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -161,7 +161,6 @@
             </div>
             <div>
               <h3 class="font-medium text-gray-800">{{ lesson.title }}</h3>
-              <p class="text-sm text-gray-500">{{ lesson.duration }} min</p>
             </div>
             {% if forloop.first %}
             <span class="ml-auto bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Playing</span>
@@ -172,11 +171,12 @@
       </div>
 
       {% else %}
+      <!-- Not Enrolled Section -->
       <div class="animate__animated animate__fadeIn">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div class="lg:col-span-2">
             <div
-              class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)] hover:translate-y-[-5px] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)] transition-all [cubic-bezier(0.4,0,0.2,1)] duration-300">
+              class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)] hover:translate-y-[-5px] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)] transition-all duration-300">
               <div class="p-6">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
                   <svg class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -194,12 +194,11 @@
                 <div
                   class="rounded-xl p-6 mb-8 text-center bg-[linear-gradient(135deg,#ffffff_0%,#f9fafb_100%)] border border-gray-200">
                   <h3 class="text-xl font-semibold text-gray-800 mb-3">Enroll to Access All Content</h3>
-                  <p class="text-gray-600 mb-5">This course contains {{ video|length }} lessons and {{ course.duration
-                    }} hours of premium content</p>
+                  <p class="text-gray-600 mb-5">This course contains {{ video|length }} lessons of premium content</p>
                   <form action="" method="POST">
                     {% csrf_token %}
                     <button type="submit"
-                      class="w-full py-3 rounded-full font-semibold flex items-center justify-center gap-2 mx-auto max-w-xs bg-[linear-gradient(135deg,#10b981_0%,#34d399_100%)] shadow-[0_4px_6px_-1px_rgba(16,185,129,0.3),0_2px_4px_-1px_rgba(16,185,129,0.2)] hover:translate-y-[-2px] hover:shadow-[0_10px_15px_-3px_rgba(16,185,129,0.4),0_4px_6px_-2px_rgba(16,185,129,0.3)] transition-all ease-in-out duration-300 [animation:pulse_2s_infinite]">
+                      class="w-full py-3 rounded-full font-semibold flex items-center justify-center gap-2 mx-auto max-w-xs bg-[linear-gradient(135deg,#10b981_0%,#34d399_100%)] shadow-[0_4px_6px_-1px_rgba(16,185,129,0.3),0_2px_4px_-1px_rgba(16,185,129,0.2)] hover:translate-y-[-2px] hover:shadow-[0_10px_15px_-3px_rgba(16,185,129,0.4),0_4px_6px_-2px_rgba(16,185,129,0.3)] transition-all ease-in-out duration-300">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
@@ -213,7 +212,7 @@
                 <div class="space-y-4">
                   {% for lesson in video|slice:":3" %}
                   <div
-                    class="p-4 rounded-lg flex items-center gap-3 bg-gray-50 border border-gray-200 opacity-80 transition-all [cubic-bezier(0.4,0,0.2,1)] duration-300 border-l-[3px] border-l-transparent">
+                    class="p-4 rounded-lg flex items-center gap-3 bg-gray-50 border border-gray-200 opacity-80 transition-all duration-300 border-l-[3px] border-l-transparent">
                     <div class="bg-gray-200 p-2 rounded-full">
                       <svg class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -222,7 +221,6 @@
                     </div>
                     <div>
                       <h3 class="font-medium text-gray-700">{{ lesson.title|truncatechars:10 }}</h3>
-                      <p class="text-sm text-gray-500">{{ lesson.duration }} min</p>
                     </div>
                     <span class="ml-auto bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">Locked</span>
                   </div>
@@ -237,7 +235,7 @@
             </div>
 
             <div
-              class="bg-white rounded-2xl p-6 mt-6 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)] hover:translate-y-[-5px] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)] transition-all [cubic-bezier(0.4,0,0.2,1)] duration-300">
+              class="bg-white rounded-2xl p-6 mt-6 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)] hover:translate-y-[-5px] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)] transition-all duration-300">
               <h2 class="text-2xl font-bold text-gray-800 mb-4">About This Course</h2>
               <div class="prose max-w-none text-gray-600">
                 {{ course.long_description|safe }}
@@ -248,7 +246,6 @@
           <div class="lg:col-span-1">
             <div
               class="bg-white rounded-2xl p-6 shadow-md hover:-translate-y-1 hover:shadow-lg transition duration-300 ease-in-out">
-
               <h3 class="text-xl font-bold text-gray-800 mb-4">Course Details</h3>
               <div class="space-y-4">
                 <div class="flex items-start gap-3">
@@ -258,7 +255,7 @@
                   </svg>
                   <div>
                     <h4 class="font-medium text-gray-700">Duration</h4>
-                    <p class="text-sm text-gray-500">{{ course.duration }} hours of content</p>
+                    <p class="text-sm text-gray-500">{{ course.duration|default:"Self-paced" }} hours of content</p>
                   </div>
                 </div>
                 <div class="flex items-start gap-3">
@@ -293,7 +290,7 @@
                 </div>
               </div>
 
-              <form action="" method="POST" class="mt-6">
+              <form action="{% url 'student_payment_submit' course.id %}" method="POST" class="mt-6">
                 {% csrf_token %}
                 <button type="submit"
                   class="w-full rounded-full font-semibold flex items-center justify-center gap-2 bg-gradient-to-r from-blue-400 to-blue-600 p-[2px]">
@@ -308,7 +305,6 @@
                     <p class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 py-2">Enroll Now</p>
                   </div>
                 </button>
-
               </form>
             </div>
           </div>
@@ -321,43 +317,190 @@
   {% include 'footer.html' %}
 
   <script>
+    // Store the current video ID to prevent duplicate loads
+    var currentVideoId = null;
+    var currentPlayer = null;
+
+    // Enhanced YouTube URL parser - handles all URL formats
+    function getYouTubeEmbedId(url) {
+      if (!url) return '';
+      
+      url = url.trim();
+      
+      // If it's already just an ID (11 characters)
+      if (/^[a-zA-Z0-9_-]{11}$/.test(url)) {
+        return url;
+      }
+      
+      // Try all patterns
+      var patterns = [
+        /youtu\.be\/([a-zA-Z0-9_-]{11})/,           // youtu.be/VIDEO_ID
+        /[?&]v=([a-zA-Z0-9_-]{11})/,                // watch?v=VIDEO_ID
+        /embed\/([a-zA-Z0-9_-]{11})/,               // embed/VIDEO_ID
+        /shorts\/([a-zA-Z0-9_-]{11})/,              // shorts/VIDEO_ID
+        /live\/([a-zA-Z0-9_-]{11})/                 // live/VIDEO_ID
+      ];
+      
+      for (var i = 0; i < patterns.length; i++) {
+        var match = url.match(patterns[i]);
+        if (match) {
+          return match[1];
+        }
+      }
+      
+      // If nothing matches, return the original URL
+      return url;
+    }
+
+    // Stop the current video
+    function stopCurrentVideo() {
+      var players = document.querySelectorAll("#videoPlayer, #videoPlayerMobile");
+      players.forEach(function(player) {
+        if (player) {
+          // Save the current src
+          var currentSrc = player.src;
+          // Clear it to stop the video
+          player.src = '';
+          // Restore after a tiny delay to stop playback
+          if (currentSrc) {
+            setTimeout(function() {
+              player.src = currentSrc;
+              // Then immediately pause
+              try {
+                // This will reload the video in paused state
+                var tempSrc = player.src;
+                player.src = '';
+                setTimeout(function() {
+                  player.src = tempSrc;
+                }, 50);
+              } catch(e) {
+                console.log('Video stopped');
+              }
+            }, 10);
+          }
+        }
+      });
+    }
+
+    function loadVideo(videoId, autoplay = false) {
+      if (!videoId) return;
+      
+      // If the same video is already loaded, don't reload it
+      if (currentVideoId === videoId) {
+        console.log('Video already loaded:', videoId);
+        return;
+      }
+      
+      // Stop the current video before loading a new one
+      stopCurrentVideo();
+      
+      var embedUrl = 'https://www.youtube.com/embed/' + videoId + 
+        '?rel=0' +
+        '&modestbranding=1' +
+        '&controls=1' +
+        '&showinfo=0' +
+        '&iv_load_policy=3' +
+        '&cc_load_policy=0' +
+        '&disablekb=0' +
+        '&fs=1' +
+        (autoplay ? '&autoplay=1' : '&autoplay=0') +
+        '&enablejsapi=1';
+      
+      // Update both desktop and mobile players
+      var players = document.querySelectorAll("#videoPlayer, #videoPlayerMobile");
+      players.forEach(function(player) {
+        if (player) {
+          // Clear the src first to force reload and stop playback
+          player.src = '';
+          // Set the new src after a small delay
+          setTimeout(function() {
+            player.src = embedUrl;
+            console.log('✅ Player updated:', player.id, 'with video ID:', videoId);
+          }, 150);
+        }
+      });
+      
+      // Update current video ID
+      currentVideoId = videoId;
+      
+      return embedUrl;
+    }
+
     function switchVideo(videoUrl, title, lessonNumber) {
-
-      const desktopIframe = document.querySelector("#videoPlayer");
-      if (desktopIframe) {
-        desktopIframe.src = `https://www.youtube.com/embed/${videoUrl}?autoplay=1&rel=0&modestbranding=1`;
+      var videoId = getYouTubeEmbedId(videoUrl);
+      
+      if (!videoId || videoId === videoUrl) {
+        console.error('Could not extract video ID from:', videoUrl);
+        alert('Error: Could not load video. Please check the video URL.');
+        return;
       }
-
-      // Update mobile video player
-      const mobileIframe = document.querySelector("#videoPlayerMobile");
-      if (mobileIframe) {
-        mobileIframe.src = `https://www.youtube.com/embed/${videoUrl}?autoplay=1&rel=0&modestbranding=1`;
+      
+      // If same video, just pause/unpause or do nothing
+      if (currentVideoId === videoId) {
+        console.log('Already playing this video');
+        return;
       }
+      
+      // Load the video with autoplay
+      loadVideo(videoId, true);
 
-      // Update titles
-      const desktopTitle = document.getElementById("videoTitle");
-      if (desktopTitle) {
-        desktopTitle.textContent = title;
-      }
-
-      const mobileTitle = document.getElementById("videoTitleMobile");
-      if (mobileTitle) {
-        mobileTitle.textContent = title;
+      // Update title
+      var titleElement = document.getElementById("videoTitle");
+      if (titleElement) {
+        titleElement.textContent = title;
       }
 
       // Update active lesson indicator
-      document.querySelectorAll('.lesson-item').forEach(item => {
-        item.querySelectorAll('span.bg-blue-100').forEach(span => span.remove());
+      document.querySelectorAll('.lesson-item').forEach(function(item) {
+        var badges = item.querySelectorAll('span.bg-blue-100');
+        badges.forEach(function(badge) {
+          if (badge.textContent === 'Playing') {
+            badge.remove();
+          }
+        });
       });
 
-      const activeLesson = document.querySelector(`.lesson-item:nth-child(${lessonNumber})`);
+      var activeLesson = document.querySelectorAll('.lesson-item')[lessonNumber - 1];
       if (activeLesson) {
-        const activeBadge = document.createElement('span');
+        var activeBadge = document.createElement('span');
         activeBadge.className = 'ml-auto bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full';
         activeBadge.textContent = 'Playing';
         activeLesson.appendChild(activeBadge);
       }
     }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      var videoUrl = "{{ video.0.video_url|default:'' }}";
+      var videoTitle = "{{ video.0.title|default:'No video selected' }}";
+      
+      console.log('=== VIDEO PLAYER INITIALIZATION ===');
+      console.log('✅ Course:', "{{ course.name }}");
+      console.log('📹 Video URL:', videoUrl);
+      console.log('📝 Video Title:', videoTitle);
+      
+      if (videoUrl) {
+        var videoId = getYouTubeEmbedId(videoUrl);
+        console.log('🎯 Extracted Video ID:', videoId);
+        
+        if (videoId && videoId !== videoUrl) {
+          // Load the video without autoplay initially
+          loadVideo(videoId, false);
+          currentVideoId = videoId;
+          console.log('✅ Video will load successfully!');
+        } else {
+          console.error('❌ Failed to extract video ID');
+          console.log('📋 Please use one of these formats:');
+          console.log('  - https://www.youtube.com/watch?v=VIDEO_ID');
+          console.log('  - https://youtu.be/VIDEO_ID');
+          console.log('  - https://www.youtube.com/embed/VIDEO_ID');
+          console.log('  - Just the VIDEO_ID (11 characters)');
+        }
+      } else {
+        console.log('ℹ️ No video URL found in database');
+      }
+      console.log('=== END INITIALIZATION ===');
+    });
   </script>
 </body>
 

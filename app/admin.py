@@ -58,3 +58,26 @@ class LoginLogAdmin(admin.ModelAdmin):
     search_fields = ('user__username',)
     list_filter = ('login_time',)
     
+    
+    
+from django.contrib import admin
+from .models import PaymentMethod, PaymentTransaction, PaymentVerification
+
+@admin.register(PaymentMethod)
+class PaymentMethodAdmin(admin.ModelAdmin):
+    list_display = ['name', 'account_number', 'is_active']
+    list_filter = ['is_active']
+    search_fields = ['account_number']
+
+@admin.register(PaymentTransaction)
+class PaymentTransactionAdmin(admin.ModelAdmin):
+    list_display = ['user', 'course', 'amount', 'payment_method', 'transaction_id', 'status', 'submitted_at']
+    list_filter = ['status', 'payment_method']
+    search_fields = ['transaction_id', 'reference_code', 'sender_number']
+    readonly_fields = ['submitted_at']
+
+@admin.register(PaymentVerification)
+class PaymentVerificationAdmin(admin.ModelAdmin):
+    list_display = ['user', 'reference_code', 'transaction_id', 'amount', 'is_verified', 'submitted_at']
+    list_filter = ['is_verified', 'payment_method']
+    search_fields = ['reference_code', 'transaction_id', 'sender_number']

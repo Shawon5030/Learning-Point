@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Submit</title>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .btn-submit {
+            background: #007bff;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        .btn-submit:hover {
+            background: #0056b3;
+        }
+        .course-info {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007bff;
+        }
+        .messages {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .info-box {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center;">💳 Payment Submission</h1>
+        
+        <!-- Display messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="messages {% if message.tags %}{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <div class="info-box">
+            <strong>ℹ️ Important:</strong>
+            <p>After submitting payment, an admin will verify your transaction. 
+            You will be enrolled in the course once verified.</p>
+        </div>
+        
+        <!-- Course Information -->
+        <div class="course-info">
+            <h3>{{ course.name }}</h3>
+            <p><strong>Price:</strong> ৳{{ course_price }}</p>
+            <p><strong>Description:</strong> {{ course.description|truncatewords:30 }}</p>
+            <p><strong>Instructor:</strong> {{ course.instructor.name }}</p>
+        </div>
+        
+        <!-- Payment Form -->
+        <form method="POST" action="{% url 'payment_submit' course.id %}">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="amount">Amount (৳)</label>
+                <input type="number" id="amount" name="amount" value="{{ course_price }}" 
+                       step="0.01" required readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="payment_method">Payment Method</label>
+                <select id="payment_method" name="payment_method" required>
+                    <option value="">Select Payment Method</option>
+                    {% for method in payment_methods %}
+                        <option value="{{ method.name }}">{{ method.get_name_display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="sender_number">Sender Number</label>
+                <input type="text" id="sender_number" name="sender_number" 
+                       placeholder="Enter your phone number" required>
+                <small style="color: #666; display: block; margin-top: 5px;">
+                    Example: 017XXXXXXXX
+                </small>
+            </div>
+            
+            <div class="form-group">
+                <label for="transaction_id">Transaction ID</label>
+                <input type="text" id="transaction_id" name="transaction_id" 
+                       placeholder="Enter transaction ID" required>
+                <small style="color: #666; display: block; margin-top: 5px;">
+                    Enter the transaction ID from your payment
+                </small>
+            </div>
+            
+            <button type="submit" class="btn-submit">Submit Payment</button>
+        </form>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <p><a href="{% url 'payment_status' %}">View Payment Status</a></p>
+        </div>
+    </div>
+</body>
+</html>

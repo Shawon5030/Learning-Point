@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin - Payment Verification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            color: #2c3e50;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .stat-number.pending {
+            color: #f39c12;
+        }
+        .stat-number.verified {
+            color: #27ae60;
+        }
+        .stat-number.revenue {
+            color: #2ecc71;
+        }
+        .stat-label {
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        .card-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        .btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #229954;
+        }
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead {
+            background: #34495e;
+            color: white;
+        }
+        th {
+            padding: 12px;
+            text-align: left;
+            font-size: 13px;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge-pending {
+            background: #f39c12;
+            color: white;
+        }
+        .badge-verified {
+            background: #27ae60;
+            color: white;
+        }
+        .reference-code {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        .messages {
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .messages.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .messages.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .messages.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .messages.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        .info-box {
+            background: #ebf5fb;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #7f8c8d;
+        }
+        .verify-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🔐 Admin - Payment Verification</h1>
+            <div>
+                <a href="{% url 'payment_status' %}" class="btn btn-primary">View My Payments</a>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="messages {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number pending">{{ total_pending }}</div>
+                <div class="stat-label">⏳ Pending Student Submissions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number verified">{{ total_verified_today }}</div>
+                <div class="stat-label">✅ Verified Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number revenue">৳{{ total_revenue }}</div>
+                <div class="stat-label">💰 Total Revenue</div>
+            </div>
+        </div>
+
+        <!-- Admin Verify Form -->
+        <div class="card">
+            <div class="card-title">
+                <h2>🔍 Verify Payment</h2>
+                <span style="color: #7f8c8d; font-size: 14px;">Enter payment details to match with student submission</span>
+            </div>
+
+            <div class="info-box">
+                <strong>ℹ️ How it works:</strong>
+                <p>Enter the payment method, transaction ID, and amount you received. If it matches a student's submission, they will be automatically enrolled!</p>
+            </div>
+
+            <div class="verify-form">
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label>Payment Method *</label>
+                        <select name="payment_method" required>
+                            <option value="">-- Select Method --</option>
+                            {% for method in payment_methods %}
+                                <option value="{{ method.name }}">{{ method.get_name_display }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Transaction ID *</label>
+                        <input type="text" name="transaction_id" placeholder="Enter transaction ID" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Amount (৳) *</label>
+                        <input type="number" name="amount" step="0.01" placeholder="Enter amount" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success" style="width: 100%;">
+                        ✅ Verify & Match Payment
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Pending Student Submissions -->
+        <div class="card">
+            <div class="card-title">
+                <h2>⏳ Pending Student Submissions</h2>
+                <span>Total: {{ pending_student_payments|length }}</span>
+            </div>
+
+            {% if pending_student_payments %}
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Course</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Transaction ID</th>
+                                <th>Reference</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for payment in pending_student_payments %}
+                                <tr>
+                                    <td>{{ payment.user.username }}</td>
+                                    <td>{{ payment.course.name }}</td>
+                                    <td><strong>৳{{ payment.amount }}</strong></td>
+                                    <td>{{ payment.get_payment_method_display }}</td>
+                                    <td><span class="reference-code">{{ payment.transaction_id }}</span></td>
+                                    <td><span class="reference-code">{{ payment.reference_code }}</span></td>
+                                    <td>{{ payment.submitted_at|date:"d M Y H:i" }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>No pending student submissions.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Verified Payments -->
+        <div class="card">
+            <div class="card-title">
+                <h2>✅ Verified & Enrolled</h2>
+                <span>Last 20</span>
+            </div>
+
+            {% if verified_payments %}
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Course</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Verified At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for payment in verified_payments %}
+                                <tr>
+                                    <td>{{ payment.user.username }}</td>
+                                    <td>{{ payment.course.name }}</td>
+                                    <td><strong>৳{{ payment.amount }}</strong></td>
+                                    <td>{{ payment.get_payment_method_display }}</td>
+                                    <td>{{ payment.verified_at|date:"d M Y H:i" }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>No verified payments yet.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

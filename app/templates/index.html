@@ -102,7 +102,7 @@
                 <p class="text-lg sm:text-xl mb-6 md:mb-8">Premium diploma courses designed for engineering students to
                     boost their technical skills.</p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <button class="btn btn-primary btn-md sm:btn-lg w-full sm:w-auto">Explore Courses</button>
+                    <button class="btn btn-primary btn-md sm:btn-lg w-full sm:w-auto"><a href="{% url 'course' %}">Explore Courses</a> </button>
                     <button
                         class="btn btn-outline btn-md sm:btn-lg text-white hover:bg-white hover:text-purple-700 w-full sm:w-auto">Learn
                         More</button>
@@ -167,7 +167,7 @@
         </div>
 
         <div class="text-center mt-8 md:mt-12">
-            <button class="btn btn-outline">View All Courses</button>
+            <button class="btn btn-outline"> <a href="{% url 'course' %}">View All Courses</a> </button>
         </div>
     </section>
 

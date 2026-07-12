@@ -35,4 +35,13 @@ urlpatterns = [
   path('api/courses/', CourseListAPIView.as_view(), name='course-list-api'),
   path( 'password-change/', auth_views.PasswordChangeView.as_view( template_name='password_change.html', success_url='/password-change/done/'),name='password_change'),
     path( 'password-change/done/',auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html' ),name='password_change_done' ),
+    
+    
+   
+  path('payment/submit/<int:course_id>/', views.student_payment_submit, name='student_payment_submit'),
+    path('payment/status/', views.payment_status, name='payment_status'),
+    path('course/access/<int:course_id>/', views.course_access_check, name='course_access_check'),
+    
+    # Admin URL
+    path('admins/payments/verify/', views.admin_payment_verify, name='admin_payment_verify'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

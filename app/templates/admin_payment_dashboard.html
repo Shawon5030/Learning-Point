@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin - Payment Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            color: #2c3e50;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #3498db;
+        }
+        .stat-label {
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .stat-card.pending .stat-number {
+            color: #f39c12;
+        }
+        .stat-card.verified .stat-number {
+            color: #27ae60;
+        }
+        .stat-card.revenue .stat-number {
+            color: #2ecc71;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        .section-title h2 {
+            color: #2c3e50;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead {
+            background: #34495e;
+            color: white;
+        }
+        th {
+            padding: 12px;
+            text-align: left;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ecf0f1;
+            font-size: 14px;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge-pending {
+            background: #f39c12;
+            color: white;
+        }
+        .badge-verified {
+            background: #27ae60;
+            color: white;
+        }
+        .badge-failed {
+            background: #e74c3c;
+            color: white;
+        }
+        .badge-expired {
+            background: #95a5a6;
+            color: white;
+        }
+        .btn {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #229954;
+        }
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+        .btn-warning:hover {
+            background: #d68910;
+        }
+        .btn-sm {
+            padding: 4px 10px;
+            font-size: 12px;
+        }
+        .match-status {
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .match-found {
+            background: #d5f5e3;
+            color: #1a7a42;
+        }
+        .match-not-found {
+            background: #fadbd8;
+            color: #922b21;
+        }
+        .messages {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .messages.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .messages.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .messages.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .messages.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+        .empty-state h3 {
+            margin-bottom: 10px;
+        }
+        .reference-code {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .filters input, .filters select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .filters button {
+            padding: 8px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .filters button:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>💰 Admin Payment Dashboard</h1>
+            <div>
+                <a href="{% url 'payment_status' %}" class="btn btn-primary">View My Payments</a>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="messages {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card pending">
+                <div class="stat-number">{{ total_pending }}</div>
+                <div class="stat-label">⏳ Pending Payments</div>
+            </div>
+            <div class="stat-card verified">
+                <div class="stat-number">{{ total_verified_today }}</div>
+                <div class="stat-label">✅ Verified Today</div>
+            </div>
+            <div class="stat-card revenue">
+                <div class="stat-number">৳{{ total_revenue }}</div>
+                <div class="stat-label">💰 Total Revenue</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ pending_verifications|length }}</div>
+                <div class="stat-label">📝 Pending Verifications</div>
+            </div>
+        </div>
+
+        <!-- Pending Verifications -->
+        <div class="section">
+            <div class="section-title">
+                <h2>📋 Pending Verifications</h2>
+                <div>
+                    <form method="POST" action="{% url 'admin_auto_verify_all' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success" onclick="return confirm('Auto-verify all matching payments?')">
+                            ⚡ Auto-Verify All
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            {% if pending_verifications %}
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Reference</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Transaction ID</th>
+                                <th>Sender</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for verification in pending_verifications %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ verification.user.username }}</strong><br>
+                                        <small>{{ verification.user.email }}</small>
+                                    </td>
+                                    <td><span class="reference-code">{{ verification.reference_code }}</span></td>
+                                    <td><strong>৳{{ verification.amount }}</strong></td>
+                                    <td>{{ verification.get_payment_method_display }}</td>
+                                    <td><span class="reference-code">{{ verification.transaction_id }}</span></td>
+                                    <td>{{ verification.sender_number }}</td>
+                                    <td>
+                                        {% if verification.matched_transaction %}
+                                            <span class="match-status match-found">✅ Match Found</span>
+                                        {% else %}
+                                            <span class="match-status match-not-found">❌ No Match</span>
+                                        {% endif %}
+                                        <br>
+                                        <small>{{ verification.submitted_at|date:"d M Y H:i" }}</small>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <a href="{% url 'admin_verify_payment' verification.id %}" class="btn btn-primary btn-sm">
+                                                🔍 Verify
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <h3>🎉 No Pending Verifications</h3>
+                    <p>All verifications have been processed.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Pending Transactions -->
+        <div class="section">
+            <div class="section-title">
+                <h2>⏳ Pending Transactions</h2>
+                <span>Total: {{ pending_transactions|length }}</span>
+            </div>
+
+            {% if pending_transactions %}
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Course</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Transaction ID</th>
+                                <th>Reference</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transaction in pending_transactions %}
+                                <tr>
+                                    <td>{{ transaction.user.username }}</td>
+                                    <td>{{ transaction.course.name }}</td>
+                                    <td><strong>৳{{ transaction.amount }}</strong></td>
+                                    <td>{{ transaction.get_payment_method_display }}</td>
+                                    <td><span class="reference-code">{{ transaction.transaction_id }}</span></td>
+                                    <td><span class="reference-code">{{ transaction.reference_code }}</span></td>
+                                    <td>{{ transaction.submitted_at|date:"d M Y H:i" }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>No pending transactions.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Recently Verified -->
+        <div class="section">
+            <div class="section-title">
+                <h2>✅ Recently Verified (Last 30 Days)</h2>
+            </div>
+
+            {% if verified_transactions %}
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Course</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Verified At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transaction in verified_transactions %}
+                                <tr>
+                                    <td>{{ transaction.user.username }}</td>
+                                    <td>{{ transaction.course.name }}</td>
+                                    <td><strong>৳{{ transaction.amount }}</strong></td>
+                                    <td>{{ transaction.get_payment_method_display }}</td>
+                                    <td>{{ transaction.verified_at|date:"d M Y H:i" }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>No verified transactions in the last 30 days.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

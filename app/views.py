@@ -171,3 +171,222 @@ class CourseListAPIView(APIView):
         courses = Course.objects.all()
         serializer = CourseSerializer(courses, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
+    
+    
+    
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
+from django.utils import timezone
+from datetime import datetime, timedelta
+from django.db import transaction
+from django.db.models import Sum
+from django.contrib.auth.models import User
+from .models import (
+    Course, PaymentTransaction, PaymentVerification, 
+    CourseEnrollment, PaymentMethod
+)
+
+@login_required
+def student_payment_submit(request, course_id):
+    """Student submits payment information"""
+    course = get_object_or_404(Course, id=course_id)
+    
+    if CourseEnrollment.objects.filter(
+        user=request.user, 
+        course=course, 
+        is_active=True,
+        expired_on__gte=timezone.now()  # Changed from __gt to __gte
+    ).exists():
+        messages.warning(request, 'You are already enrolled in this course.')
+        return redirect('course_detail', course_id=course.id)
+    
+    if request.method == 'POST':
+        amount = request.POST.get('amount')
+        payment_method = request.POST.get('payment_method')
+        sender_number = request.POST.get('sender_number')
+        transaction_id = request.POST.get('transaction_id')
+        
+        if not all([amount, payment_method, sender_number, transaction_id]):
+            messages.error(request, 'All fields are required!')
+            return redirect('student_payment_submit', course_id=course_id)
+        
+        try:
+            with transaction.atomic():
+                payment = PaymentTransaction(
+                    user=request.user,
+                    course=course,
+                    amount=amount,
+                    payment_method=payment_method,
+                    sender_number=sender_number,
+                    transaction_id=transaction_id,
+                    status='pending'
+                )
+                payment.reference_code = f"STU{timezone.now().strftime('%Y%m%d%H%M%S')}{request.user.id}"
+                payment.save()
+                
+                messages.success(request, f'✅ Payment submitted! Reference: {payment.reference_code}')
+                messages.info(request, 'Waiting for admin verification.')
+                
+        except Exception as e:
+            messages.error(request, f'Error: {str(e)}')
+        
+        return redirect('payment_status')
+    
+    payment_methods = PaymentMethod.objects.filter(is_active=True)
+    course_price = course.discounted_price if course.discounted_price else course.price
+    
+    context = {
+        'course': course,
+        'course_price': course_price,
+        'payment_methods': payment_methods,
+    }
+    return render(request, 'student_payment_submit.html', context)
+
+def is_admin(user):
+    return user.is_staff or user.is_superuser
+
+@login_required
+@user_passes_test(is_admin)
+def admin_payment_verify(request):
+    """Admin verifies payment by entering method, tr_id, amount"""
+    
+    pending_student_payments = PaymentTransaction.objects.filter(
+        status='pending'
+    ).order_by('-submitted_at')
+    
+    verified_payments = PaymentTransaction.objects.filter(
+        status='verified'
+    ).order_by('-verified_at')[:20]
+    
+    if request.method == 'POST':
+        payment_method = request.POST.get('payment_method')
+        transaction_id = request.POST.get('transaction_id')
+        amount = request.POST.get('amount')
+        
+        if not all([payment_method, transaction_id, amount]):
+            messages.error(request, 'All fields are required!')
+            return redirect('admin_payment_verify')
+        
+        try:
+            with transaction.atomic():
+                student_payment = PaymentTransaction.objects.filter(
+                    payment_method=payment_method,
+                    transaction_id=transaction_id,
+                    amount=amount,
+                    status='pending'
+                ).first()
+                
+                if student_payment:
+                    student_payment.status = 'verified'
+                    student_payment.verified_at = timezone.now()
+                    student_payment.save()
+                    
+                    PaymentVerification.objects.create(
+                        user=student_payment.user,
+                        reference_code=student_payment.reference_code,
+                        transaction_id=transaction_id,
+                        sender_number=student_payment.sender_number,
+                        payment_method=payment_method,
+                        amount=amount,
+                        is_verified=True,
+                        matched_transaction=student_payment
+                    )
+                    
+                    enroll_student_in_course(student_payment.user, student_payment.course)
+                    
+                    messages.success(request, f'✅ MATCH FOUND! {student_payment.user.username} enrolled in {student_payment.course.name}!')
+                else:
+                    messages.error(request, '❌ No matching student submission found!')
+                    
+        except Exception as e:
+            messages.error(request, f'Error: {str(e)}')
+        
+        return redirect('admin_payment_verify')
+    
+    total_pending = pending_student_payments.count()
+    total_verified_today = PaymentTransaction.objects.filter(
+        status='verified',
+        verified_at__date=timezone.now().date()
+    ).count()
+    
+    total_revenue = PaymentTransaction.objects.filter(
+        status='verified'
+    ).aggregate(total=Sum('amount'))['total'] or 0
+    
+    payment_methods = PaymentMethod.objects.filter(is_active=True)
+    
+    context = {
+        'payment_methods': payment_methods,
+        'pending_student_payments': pending_student_payments,
+        'verified_payments': verified_payments,
+        'total_pending': total_pending,
+        'total_verified_today': total_verified_today,
+        'total_revenue': total_revenue,
+    }
+    return render(request, 'admin_payment_verify.html', context)
+def enroll_student_in_course(user, course):
+    """Enroll user in course using course end date"""
+    # Get or create enrollment
+    enrollment, created = CourseEnrollment.objects.get_or_create(
+        user=user,
+        course=course,
+        defaults={
+            'expired_on': timezone.make_aware(datetime.combine(course.end_date, datetime.max.time())),
+            'is_active': True
+        }
+    )
+    
+    print(enrollment.expired_on,"hi")
+    print(course.end_date,"hello")
+    
+    if not created:
+        # Update existing enrollment
+        enrollment.is_active = True
+        enrollment.enrolled_on = timezone.now()
+        enrollment.expired_on = timezone.make_aware(datetime.combine(course.end_date, datetime.max.time()))
+        enrollment.save()
+
+
+@login_required
+def payment_status(request):
+    """Student views payment status"""
+    payments = PaymentTransaction.objects.filter(
+        user=request.user
+    ).order_by('-submitted_at')
+    
+    # Use __gte to include enrollments that expire today
+    active_enrollments = CourseEnrollment.objects.filter(
+        user=request.user,
+        is_active=True,
+        expired_on__gte=timezone.now()  # Changed from __gt to __gte
+    )
+    
+    context = {
+        'payments': payments,
+        'active_enrollments': active_enrollments,
+    }
+    return render(request, 'payment_status.html', context)
+
+@login_required
+def course_access_check(request, course_id):
+    """Check if user has access to course"""
+    course = get_object_or_404(Course, id=course_id)
+    
+    enrollment = CourseEnrollment.objects.filter(
+        user=request.user,
+        course=course,
+        is_active=True,
+        expired_on__gte=timezone.now()  # Changed from __gt to __gte
+    ).first()
+    
+    if enrollment:
+        return render(request, 'course_content.html', {
+            'course': course, 
+            'enrollment': enrollment
+        })
+    else:
+        messages.warning(request, 'You do not have access to this course. Please enroll first.')
+        return redirect('course_detail', course_id=course.id)
