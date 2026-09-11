@@ -4,3 +4,5 @@ django-user-agents
 whitenoise
 gunicorn
 pillow
+psycopg2-binary
+dj-database-url
