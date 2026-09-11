@@ -56,6 +56,9 @@
         <li><a href="{% url 'password_change'%}" class="bangla-text text-blue-600 ">পাসওয়ার্ড
             পরিবর্তন</a></li>
         <li><a href="{% url 'logout' %}" class="text-red-600 hover:bg-red-50 bangla-text">লগআউট</a></li>
+        {% if request.user.is_superuser %}
+        <li><a href="{% url 'admin_payment_verify' %}" class="bangla-text text-blue-600">পেমেন্ট রেসিভ </a></li>
+        {% endif %}
         {% else %}
         <li><a href="{% url 'login'%}" class="bangla-text text-blue-600 ">লগইন</a></li>
         <li><a href="{% url 'register'%}" class="bangla-text text-blue-600 ">রেজিস্ট্রেশন</a></li>
